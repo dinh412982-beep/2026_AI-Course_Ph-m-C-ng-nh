@@ -1,0 +1,1931 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CỔNG TRỢ LÝ PHÁP LUẬT AI - TRA CỨU VI PHẠM GIAO THÔNG</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --header-bg: #0b1a30;
+    --header-border: #152844;
+    --sidebar-bg: #ffffff;
+    --sidebar-active: #faeed7;
+    --sidebar-active-text: #854d0e;
+    --center-bg: #f9f8f5;
+    --right-bg: #ffffff;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --user-bubble: #0e1d33;
+    --bot-card: #ffffff;
+    --border-light: #e5e7eb;
+    --border-card: #e2e8f0;
+    --accent-blue: #0284c7;
+    --accent-orange: #d97706;
+    --accent-green: #16a34a;
+    --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+    --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.03);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* Smooth modern scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 999px; }
+  ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--center-bg);
+    color: var(--text-main);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* TOP HEADER */
+  header.top-header {
+    background: var(--header-bg);
+    color: #ffffff;
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border-bottom: 1px solid var(--header-border);
+    flex-shrink: 0;
+    z-index: 30;
+  }
+
+  .header-shield-icon {
+    width: 38px;
+    height: 38px;
+    background: linear-gradient(135deg, #1d4ed8 0%, #0284c7 100%);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(2, 132, 199, 0.4);
+    flex-shrink: 0;
+  }
+
+  .header-shield-icon svg {
+    width: 22px;
+    height: 22px;
+    fill: #ffffff;
+  }
+
+  .header-titles {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .header-titles h1 {
+    font-size: 15.5px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #ffffff;
+    line-height: 1.2;
+  }
+
+  .header-titles p {
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: #94a3b8;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  /* 3-COLUMN APP CONTAINER */
+  .app-container {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 230px 1fr 310px;
+    overflow: hidden;
+    height: calc(100vh - 63px);
+  }
+
+  /* LEFT SIDEBAR */
+  aside.left-sidebar {
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--border-light);
+    display: flex;
+    flex-direction: column;
+    padding: 18px 12px;
+    gap: 6px;
+    overflow-y: auto;
+    justify-content: space-between;
+  }
+
+  .nav-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #475569;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    border: 1px solid transparent;
+  }
+
+  .nav-item:hover {
+    background: #f1f5f9;
+    color: #0f172a;
+  }
+
+  .nav-item.active {
+    background: var(--sidebar-active);
+    color: var(--sidebar-active-text);
+    border-color: #fde68a;
+  }
+
+  .nav-item .icon {
+    font-size: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .sidebar-bottom-info {
+    padding: 12px;
+    background: #f8fafc;
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .sidebar-bottom-info .info-tag {
+    font-size: 11px;
+    font-weight: 700;
+    color: #0369a1;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    text-transform: uppercase;
+  }
+
+  .sidebar-bottom-info .info-desc {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+
+  /* CENTER COLUMN: CHAT STREAM & INPUT */
+  main.chat-main {
+    background: var(--center-bg);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .messages-viewport {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px 28px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    scroll-behavior: smooth;
+  }
+
+  /* CHAT ROWS */
+  .chat-row {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+    animation: fadeIn 0.2s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .chat-row.bot {
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  .chat-row.user {
+    align-items: flex-start;
+    justify-content: flex-end;
+  }
+
+  /* AVATARS */
+  .bot-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #ede9fe;
+    border: 1px solid #ddd6fe;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 19px;
+    flex-shrink: 0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+
+  .user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--user-bubble);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+
+  /* USER BUBBLE */
+  .user-bubble {
+    background: var(--user-bubble);
+    color: #ffffff;
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.5;
+    max-width: 75%;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.12);
+    word-break: break-word;
+  }
+
+  /* BOT CARD */
+  .bot-card {
+    background: var(--bot-card);
+    border: 1px solid var(--border-card);
+    border-radius: 16px;
+    padding: 16px 20px;
+    max-width: 84%;
+    box-shadow: var(--shadow-subtle);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .bot-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #2563eb;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 8px;
+  }
+
+  .bot-card-header-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .bot-card-header .dot-icon {
+    width: 8px;
+    height: 8px;
+    background: #2563eb;
+    border-radius: 50%;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  }
+
+  .bot-card-badge {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: #eff6ff;
+    color: #1d4ed8;
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  .bot-card-content {
+    font-size: 14px;
+    line-height: 1.65;
+    color: #1e293b;
+    word-break: break-word;
+  }
+
+  .bot-card-content p {
+    margin-bottom: 8px;
+  }
+  .bot-card-content p:last-child {
+    margin-bottom: 0;
+  }
+
+  .bot-card-content ul {
+    margin: 6px 0 8px 18px;
+  }
+  .bot-card-content li {
+    margin-bottom: 4px;
+  }
+
+  /* ARTICLE ITEMS */
+  .article-item {
+    padding: 10px 0;
+    border-bottom: 1px dashed #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .article-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .article-body {
+    font-size: 13.5px;
+    color: #334155;
+    line-height: 1.6;
+  }
+
+  .keyword-tag-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #64748b;
+    margin-top: 2px;
+  }
+
+  .keyword-pill {
+    background: #f1f5f9;
+    padding: 1px 7px;
+    border-radius: 4px;
+    font-size: 11.5px;
+    color: #475569;
+  }
+
+  /* RELIABILITY PROGRESS BAR */
+  .reliability-box {
+    margin-top: 4px;
+    padding-top: 10px;
+    border-top: 1px solid #f1f5f9;
+  }
+
+  .reliability-label-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11px;
+    font-weight: 700;
+    color: #64748b;
+    letter-spacing: 0.04em;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+
+  .reliability-percent {
+    color: #0f172a;
+    font-size: 12px;
+  }
+
+  .reliability-track {
+    width: 100%;
+    height: 7px;
+    background: #e2e8f0;
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .reliability-fill {
+    height: 100%;
+    background: #22c55e;
+    border-radius: 999px;
+    transition: width 0.4s ease;
+  }
+
+  /* CITATION LINKS FOOTER */
+  .card-citation-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+    padding-top: 8px;
+    border-top: 1px solid #f8fafc;
+    font-size: 12px;
+  }
+
+  .citation-header {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #64748b;
+    font-weight: 600;
+  }
+
+  .citation-links {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .citation-link-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 9px;
+    background: #f8fafc;
+    border: 1px solid var(--border-light);
+    border-radius: 6px;
+    color: #0284c7;
+    font-size: 11.5px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.15s ease;
+  }
+
+  .citation-link-badge:hover {
+    background: #f0f9ff;
+    border-color: #bae6fd;
+    color: #0369a1;
+  }
+
+  /* MICRO-FEEDBACK ROW UNDER BOT CARD */
+  .card-feedback-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 6px;
+    border-top: 1px dashed #f1f5f9;
+    font-size: 12px;
+    color: #64748b;
+  }
+
+  .feedback-buttons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn-thumb {
+    background: #f8fafc;
+    border: 1px solid var(--border-light);
+    border-radius: 6px;
+    padding: 3px 8px;
+    font-size: 12px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: #475569;
+    transition: all 0.15s ease;
+  }
+
+  .btn-thumb:hover {
+    background: #ffffff;
+    border-color: #cbd5e1;
+    color: #0f172a;
+  }
+
+  .btn-thumb.active-helpful {
+    background: #ecfdf5;
+    border-color: #6ee7b7;
+    color: #047857;
+    font-weight: 600;
+  }
+
+  .btn-thumb.active-unhelpful {
+    background: #fef2f2;
+    border-color: #fca5a5;
+    color: #b91c1c;
+    font-weight: 600;
+  }
+
+  /* HIGHLIGHTS FOR FINE MONEY AND SUPPLEMENTARY PENALTIES */
+  .fine-highlight {
+    display: inline-block;
+    background: #fef2f2;
+    color: #b91c1c;
+    border: 1px solid #fecaca;
+    padding: 1px 7px;
+    border-radius: 6px;
+    font-weight: 700;
+    margin: 2px 0;
+  }
+
+  .penalty-highlight {
+    display: inline-block;
+    background: #fffbeb;
+    color: #b45309;
+    border: 1px solid #fde68a;
+    padding: 1px 7px;
+    border-radius: 6px;
+    font-weight: 700;
+    margin: 2px 0;
+  }
+
+  /* TYPING */
+  .bot-card.typing {
+    font-style: italic;
+    color: var(--text-muted);
+    font-size: 13.5px;
+    background: #ffffff;
+  }
+
+  /* BOTTOM INPUT AREA */
+  .input-container-wrapper {
+    background: var(--center-bg);
+    padding: 12px 24px 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  form#chat-form {
+    width: 100%;
+    max-width: 820px;
+    background: #ffffff;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 999px;
+    padding: 5px 6px 5px 22px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  form#chat-form:focus-within {
+    border-color: #64748b;
+    box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.06);
+  }
+
+  #question-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-family: inherit;
+    font-size: 14px;
+    color: #0f172a;
+    background: transparent;
+  }
+
+  #question-input::placeholder {
+    color: #94a3b8;
+  }
+
+  #send-btn {
+    background: var(--user-bubble);
+    color: #ffffff;
+    border: none;
+    border-radius: 999px;
+    padding: 10px 22px;
+    font-family: inherit;
+    font-size: 13.5px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.1s ease;
+  }
+
+  #send-btn:hover {
+    background: #1e293b;
+    transform: translateY(-1px);
+  }
+
+  #send-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .disclaimer-text {
+    font-size: 11px;
+    color: #94a3b8;
+    text-align: center;
+  }
+
+  /* RIGHT SIDEBAR */
+  aside.right-sidebar {
+    background: var(--right-bg);
+    border-left: 1px solid var(--border-light);
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    overflow-y: auto;
+  }
+
+  /* WIDGET 1: AI ASSISTANT */
+  .assistant-card {
+    background: #ffffff;
+    border: 1px solid var(--border-card);
+    border-radius: 16px;
+    padding: 20px 16px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    box-shadow: var(--shadow-subtle);
+  }
+
+  .assistant-icon-circle {
+    width: 58px;
+    height: 58px;
+    background: #ede9fe;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    margin-bottom: 4px;
+  }
+
+  .assistant-card h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: #0f172a;
+    letter-spacing: 0.03em;
+  }
+
+  .assistant-card p {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  /* SIDEBAR SECTION HEADERS */
+  .sidebar-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .sidebar-section-title {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #64748b;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  /* IMPORTANT LAWS WITH CITATION LINKS */
+  .laws-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .law-list-card {
+    background: #f8fafc;
+    border: 1px solid var(--border-light);
+    border-radius: 10px;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: all 0.15s ease;
+  }
+
+  .law-list-card:hover {
+    background: #ffffff;
+    border-color: #cbd5e1;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+
+  .law-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+  }
+
+  .law-title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .law-name {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #0f172a;
+  }
+
+  .check-icon-circle {
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    background: #fef3c7;
+    color: #d97706;
+    border: 1.5px solid #d97706;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+
+  .law-link-external {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #0284c7;
+    text-decoration: none;
+    margin-top: 2px;
+    padding: 2px 0;
+  }
+
+  .law-link-external:hover {
+    color: #0369a1;
+    text-decoration: underline;
+  }
+
+  /* QUESTION SUGGESTIONS (Chips) */
+  .suggestion-chips {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  .chip-btn {
+    text-align: left;
+    background: #f8fafc;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #334155;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .chip-btn:hover {
+    background: #ffffff;
+    border-color: #cbd5e1;
+    color: #0284c7;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  }
+
+  /* MODALS */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 100;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .modal-overlay.active {
+    display: flex;
+  }
+
+  .modal-card {
+    background: #ffffff;
+    border-radius: 18px;
+    width: 100%;
+    max-width: 780px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
+  }
+
+  .modal-header {
+    padding: 16px 22px;
+    border-bottom: 1px solid var(--border-light);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .modal-header h2 {
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .modal-close {
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    color: #94a3b8;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+  }
+
+  .modal-close:hover {
+    background: #f1f5f9;
+    color: #0f172a;
+  }
+
+  .modal-body {
+    padding: 20px 22px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  /* LAW DETAIL CARDS */
+  .law-detail-card {
+    background: #f8fafc;
+    border: 1px solid var(--border-light);
+    border-radius: 14px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .law-detail-badge {
+    align-self: flex-start;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: #e0f2fe;
+    color: #0369a1;
+  }
+
+  .law-detail-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #0f172a;
+  }
+
+  .law-detail-desc {
+    font-size: 13px;
+    color: #475569;
+    line-height: 1.5;
+  }
+
+  .law-detail-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 6px;
+    flex-wrap: wrap;
+  }
+
+  .btn-cite-external {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #ffffff;
+    border: 1px solid #0284c7;
+    color: #0284c7;
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.15s ease;
+  }
+
+  .btn-cite-external:hover {
+    background: #f0f9ff;
+  }
+
+  .btn-modal-ask {
+    background: #0f172a;
+    color: #ffffff;
+    border: none;
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+
+  .btn-modal-ask:hover {
+    background: #1e293b;
+  }
+
+  /* PENALTIES GRID */
+  .modal-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 12px;
+  }
+
+  .penalty-box {
+    background: #f8fafc;
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .penalty-box .title {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #0f172a;
+  }
+
+  .penalty-box .desc {
+    font-size: 12.5px;
+    color: #475569;
+    line-height: 1.5;
+  }
+
+  .penalty-box .btn-ask {
+    align-self: flex-start;
+    margin-top: 4px;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #d97706;
+    background: #fef3c7;
+    border: 1px solid #fde68a;
+    padding: 4px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .penalty-box .btn-ask:hover {
+    background: #fef08a;
+  }
+
+  /* FEEDBACK FORM STYLING */
+  .feedback-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .star-rating-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    padding: 14px;
+    background: #f8fafc;
+    border-radius: 12px;
+    border: 1px solid var(--border-light);
+  }
+
+  .star-rating-title {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #0f172a;
+  }
+
+  .stars-row {
+    display: flex;
+    gap: 8px;
+    font-size: 28px;
+    cursor: pointer;
+  }
+
+  .star-btn {
+    background: none;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: #cbd5e1;
+    transition: transform 0.15s ease, color 0.15s ease;
+  }
+
+  .star-btn:hover,
+  .star-btn.active {
+    color: #f59e0b;
+    transform: scale(1.15);
+  }
+
+  .rating-label-text {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #d97706;
+    height: 18px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .form-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #334155;
+  }
+
+  .form-select,
+  .form-textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border-light);
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 13.5px;
+    color: #0f172a;
+    background: #ffffff;
+    outline: none;
+    transition: border-color 0.15s ease;
+  }
+
+  .form-select:focus,
+  .form-textarea:focus {
+    border-color: #0284c7;
+    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.08);
+  }
+
+  .form-textarea {
+    min-height: 90px;
+    resize: vertical;
+  }
+
+  .btn-submit-feedback {
+    background: #0f172a;
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 20px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: background 0.15s ease;
+  }
+
+  .btn-submit-feedback:hover {
+    background: #1e293b;
+  }
+
+  /* TOAST NOTIFICATION */
+  .toast-box {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #0f172a;
+    color: #ffffff;
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-size: 13.5px;
+    font-weight: 600;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 200;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(12px);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .toast-box.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  /* RESPONSIVE DESIGN */
+  @media (max-width: 1024px) {
+    .app-container {
+      grid-template-columns: 200px 1fr;
+    }
+    aside.right-sidebar {
+      display: none;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .app-container {
+      grid-template-columns: 1fr;
+    }
+    aside.left-sidebar {
+      display: none;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP HEADER -->
+<header class="top-header">
+  <div class="header-shield-icon">
+    <svg viewBox="0 0 24 24">
+      <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 2.18l7 3.12v4.7c0 4.67-3.13 9.04-7 10.19-3.87-1.15-7-5.52-7-10.19V6.3l7-3.12z"/>
+      <path d="M10.5 12.5l-2-2-1.41 1.41 3.41 3.42 6.41-6.42-1.41-1.41z"/>
+    </svg>
+  </div>
+  <div class="header-titles">
+    <h1>CỔNG TRỢ LÝ PHÁP LUẬT AI - TRA CỨU VI PHẠM GIAO THÔNG</h1>
+    <p>HỆ THỐNG TRA CỨU NHANH CHÓNG, CHÍNH XÁC VÀ TIN CẬY</p>
+  </div>
+</header>
+
+<!-- 3-COLUMN APP CONTAINER -->
+<div class="app-container">
+
+  <!-- LEFT SIDEBAR -->
+  <aside class="left-sidebar">
+    <div class="nav-group">
+      <div class="nav-item" onclick="switchToChat()">
+        <span class="icon">🏠</span>
+        <span>Trang chủ</span>
+      </div>
+      <div class="nav-item active" id="nav-chat" onclick="switchToChat()">
+        <span class="icon">💬</span>
+        <span>Chat tư vấn</span>
+      </div>
+      <div class="nav-item" id="nav-laws" onclick="openModal('modal-laws')">
+        <span class="icon">📖</span>
+        <span>Văn bản pháp luật</span>
+      </div>
+      <div class="nav-item" id="nav-penalties" onclick="openModal('modal-penalties')">
+        <span class="icon">💰</span>
+        <span>Mức phạt phổ biến</span>
+      </div>
+      <!-- USER RATING & FEEDBACK MENU ITEM -->
+      <div class="nav-item" id="nav-feedback" onclick="openModal('modal-feedback')">
+        <span class="icon">⭐</span>
+        <span>Đánh giá &amp; Góp ý</span>
+      </div>
+    </div>
+
+    <!-- SIDEBAR BOTTOM INFO -->
+    <div class="sidebar-bottom-info">
+      <div class="info-tag">⚖️ DỮ LIỆU ĐỐI CHIẾU</div>
+      <div class="info-desc">Nghị định 100/2019/NĐ-CP &amp; Nghị định 123/2021/NĐ-CP của Chính phủ.</div>
+    </div>
+  </aside>
+
+  <!-- CENTER COLUMN: CHAT STREAM & INPUT -->
+  <main class="chat-main">
+    <div class="messages-viewport" id="messages-container">
+      <!-- INITIAL BOT MESSAGE -->
+      <div class="chat-row bot">
+        <div class="bot-avatar">🤖</div>
+        <div class="bot-card">
+          <div class="bot-card-header">
+            <div class="bot-card-header-left">
+              <span class="dot-icon"></span>
+              <span>KẾT QUẢ TRA CỨU</span>
+            </div>
+            <span class="bot-card-badge">Hệ thống mở &amp; Miễn phí</span>
+          </div>
+          <div class="bot-card-content">
+            <p>Xin chào! Tôi là Trợ lý AI tra cứu luật giao thông.</p>
+            <p>Bạn đang cần kiểm tra mức phạt cho hành vi vi phạm nào (Ví dụ: vượt đèn đỏ ô tô, nồng độ cồn xe máy...)?</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTTOM INPUT -->
+    <div class="input-container-wrapper">
+      <form id="chat-form">
+        <input
+          id="question-input"
+          type="text"
+          placeholder="Nhập hành vi vi phạm cần tra cứu (VD: vượt đèn đỏ)..."
+          autocomplete="off"
+          required
+        />
+        <button id="send-btn" type="submit">
+          <span>Gửi</span>
+          <span>→</span>
+        </button>
+      </form>
+      <div class="disclaimer-text">
+        Dữ liệu trích xuất từ hệ thống AI - Vui lòng đối chiếu với văn bản pháp luật hiện hành.
+      </div>
+    </div>
+  </main>
+
+  <!-- RIGHT SIDEBAR -->
+  <aside class="right-sidebar">
+    <!-- WIDGET 1: AI TRỢ LÝ -->
+    <div class="assistant-card">
+      <div class="assistant-icon-circle">🤖</div>
+      <h3>AI TRỢ LÝ</h3>
+      <p>Được huấn luyện trên cơ sở dữ liệu Luật Giao Thông Đường Bộ mới nhất.</p>
+    </div>
+
+    <!-- WIDGET 2: CÁC VĂN BẢN QUAN TRỌNG (WITH DIRECT CITATION LINKS) -->
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">CÁC VĂN BẢN QUAN TRỌNG</div>
+      <div class="laws-list">
+        <!-- NĐ 100 -->
+        <div class="law-list-card">
+          <div class="law-header-row">
+            <div class="law-title-wrap">
+              <span class="check-icon-circle">✔</span>
+              <span class="law-name">Nghị định 100/2019/NĐ-CP</span>
+            </div>
+          </div>
+          <a
+            class="law-link-external"
+            href="https://thuvienphapluat.vn/van-ban/Giao-thong-Van-tai/Nghi-dinh-100-2019-ND-CP-xu-phat-vi-pham-hanh-chinh-giao-thong-duong-bo-duong-sat-431804.aspx"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span>🔗 Xem văn bản gốc (thuvienphapluat.vn)</span> ↗
+          </a>
+        </div>
+
+        <!-- NĐ 123 -->
+        <div class="law-list-card">
+          <div class="law-header-row">
+            <div class="law-title-wrap">
+              <span class="check-icon-circle">✔</span>
+              <span class="law-name">Nghị định 123/2021/NĐ-CP</span>
+            </div>
+          </div>
+          <a
+            class="law-link-external"
+            href="https://thuvienphapluat.vn/van-ban/Vi-pham-hanh-chinh/Nghi-dinh-123-2021-ND-CP-sua-doi-Nghi-dinh-xu-phat-vi-pham-hanh-chinh-linh-vuc-giao-thong-498877.aspx"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span>🔗 Xem văn bản gốc (thuvienphapluat.vn)</span> ↗
+          </a>
+        </div>
+
+        <!-- Luật GTĐB 2008 -->
+        <div class="law-list-card">
+          <div class="law-header-row">
+            <div class="law-title-wrap">
+              <span class="check-icon-circle">✔</span>
+              <span class="law-name">Luật Giao thông đường bộ 2008</span>
+            </div>
+          </div>
+          <a
+            class="law-link-external"
+            href="https://thuvienphapluat.vn/van-ban/Giao-thong-Van-tai/Luat-Giao-thong-duong-bo-2008-23-2008-QH12-82203.aspx"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span>🔗 Xem văn bản gốc (thuvienphapluat.vn)</span> ↗
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- WIDGET 3: GỢI Ý CÂU HỎI -->
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">GỢI Ý CÂU HỎI</div>
+      <div class="suggestion-chips">
+        <button class="chip-btn" onclick="askQuestion('Không bằng lái phạt bao nhiêu?')">Không bằng lái phạt bao nhiêu?</button>
+        <button class="chip-btn" onclick="askQuestion('Lỗi đi ngược chiều ô tô')">Lỗi đi ngược chiều ô tô</button>
+        <button class="chip-btn" onclick="askQuestion('Nồng độ cồn kịch khung')">Nồng độ cồn kịch khung</button>
+        <button class="chip-btn" onclick="askQuestion('Vượt đèn đỏ xe máy')">Vượt đèn đỏ xe máy</button>
+      </div>
+    </div>
+  </aside>
+
+</div>
+
+<!-- MODAL: MỨC PHẠT PHỔ BIẾN -->
+<div class="modal-overlay" id="modal-penalties">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h2>💰 Mức Phạt Các Lỗi Giao Thông Thường Gặp</h2>
+      <button class="modal-close" onclick="closeModal('modal-penalties')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-grid">
+        <div class="penalty-box">
+          <div class="title">🍺 Vi phạm nồng độ cồn</div>
+          <div class="desc">
+            • <b>Xe máy:</b> 2.000.000đ - 8.000.000đ, tước GPLX 10 - 24 tháng.<br>
+            • <b>Ô tô:</b> 6.000.000đ - 40.000.000đ, tước GPLX 10 - 24 tháng.
+          </div>
+          <button class="btn-ask" onclick="askFromModal('Mức phạt vi phạm nồng độ cồn?')">Tra cứu điều luật</button>
+        </div>
+
+        <div class="penalty-box">
+          <div class="title">🚦 Vượt đèn đỏ / Đèn vàng</div>
+          <div class="desc">
+            • <b>Xe máy:</b> 800.000đ - 1.000.000đ, tước GPLX 1 - 3 tháng.<br>
+            • <b>Ô tô:</b> 4.000.000đ - 6.000.000đ, tước GPLX 1 - 3 tháng.
+          </div>
+          <button class="btn-ask" onclick="askFromModal('Mức phạt vượt đèn đỏ xe máy và ô tô?')">Tra cứu điều luật</button>
+        </div>
+
+        <div class="penalty-box">
+          <div class="title">🏎️ Chạy quá tốc độ quy định</div>
+          <div class="desc">
+            • Quá 5 - 10 km/h: Xe máy 300k - 400k | Ô tô 800k - 1tr.<br>
+            • Quá 10 - 20 km/h: Xe máy 800k - 1tr | Ô tô 4tr - 6tr.<br>
+            • Quá trên 20 - 35 km/h: Xe máy 4tr - 5tr | Ô tô 6tr - 8tr.
+          </div>
+          <button class="btn-ask" onclick="askFromModal('Chạy quá tốc độ bị phạt bao nhiêu?')">Tra cứu điều luật</button>
+        </div>
+
+        <div class="penalty-box">
+          <div class="title">🪖 Không đội mũ bảo hiểm</div>
+          <div class="desc">
+            • Người điều khiển hoặc người ngồi sau xe mô tô, xe gắn máy, xe máy điện không đội mũ bảo hiểm: Phạt <b>400.000đ - 600.000đ</b>.
+          </div>
+          <button class="btn-ask" onclick="askFromModal('Không đội mũ bảo hiểm phạt bao nhiêu?')">Tra cứu điều luật</button>
+        </div>
+
+        <div class="penalty-box">
+          <div class="title">📱 Sử dụng điện thoại khi lái xe</div>
+          <div class="desc">
+            • <b>Xe máy:</b> Phạt 800.000đ - 1.000.000đ.<br>
+            • <b>Ô tô:</b> Phạt 2.000.000đ - 3.000.000đ.
+          </div>
+          <button class="btn-ask" onclick="askFromModal('Dùng điện thoại khi lái xe phạt bao nhiêu?')">Tra cứu điều luật</button>
+        </div>
+
+        <div class="penalty-box">
+          <div class="title">🚫 Đi ngược chiều / Đường cấm</div>
+          <div class="desc">
+            • <b>Xe máy:</b> 1.000.000đ - 2.000.000đ, tước GPLX 1 - 3 tháng.<br>
+            • <b>Ô tô:</b> 4.000.000đ - 6.000.000đ (cao tốc phạt 16tr - 18tr).
+          </div>
+          <button class="btn-ask" onclick="askFromModal('Đi ngược chiều phạt bao nhiêu?')">Tra cứu điều luật</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: VĂN BẢN PHÁP LUẬT -->
+<div class="modal-overlay" id="modal-laws">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h2>📖 Văn Bản Pháp Luật Giao Thông &amp; Link Trích Dẫn Gốc</h2>
+      <button class="modal-close" onclick="closeModal('modal-laws')">✕</button>
+    </div>
+    <div class="modal-body">
+      <!-- LAW 1: NĐ 100 -->
+      <div class="law-detail-card">
+        <span class="law-detail-badge">Nghị định xử phạt chính</span>
+        <div class="law-detail-title">Nghị định số 100/2019/NĐ-CP của Chính phủ</div>
+        <div class="law-detail-desc">
+          Quy định xử phạt vi phạm hành chính trong lĩnh vực giao thông đường bộ và đường sắt. Bao gồm đầy đủ khung phạt tiền, hình thức phạt bổ sung (tước bằng lái xe) và biện pháp khắc phục hậu quả.
+        </div>
+        <div class="law-detail-actions">
+          <a
+            class="btn-cite-external"
+            href="https://thuvienphapluat.vn/van-ban/Giao-thong-Van-tai/Nghi-dinh-100-2019-ND-CP-xu-phat-vi-pham-hanh-chinh-giao-thong-duong-bo-duong-sat-431804.aspx"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span>🔗 Xem toàn văn trên Thư Viện Pháp Luật</span> ↗
+          </a>
+          <button class="btn-modal-ask" onclick="askFromModal('Nghị định 100/2019/NĐ-CP quy định những gì?')">Hỏi bot về NĐ 100</button>
+        </div>
+      </div>
+
+      <!-- LAW 2: NĐ 123 -->
+      <div class="law-detail-card">
+        <span class="law-detail-badge">Nghị định sửa đổi &amp; Tăng mức phạt</span>
+        <div class="law-detail-title">Nghị định số 123/2021/NĐ-CP của Chính phủ</div>
+        <div class="law-detail-desc">
+          Sửa đổi, bổ sung một số điều của các Nghị định quy định xử phạt vi phạm hành chính trong lĩnh vực hàng hải; giao thông đường bộ, đường sắt; hàng không dân dụng. Tăng nặng mức phạt các lỗi không đội mũ bảo hiểm, đua xe, quá tải, biển số...
+        </div>
+        <div class="law-detail-actions">
+          <a
+            class="btn-cite-external"
+            href="https://thuvienphapluat.vn/van-ban/Vi-pham-hanh-chinh/Nghi-dinh-123-2021-ND-CP-sua-doi-Nghi-dinh-xu-phat-vi-pham-hanh-chinh-linh-vuc-giao-thong-498877.aspx"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span>🔗 Xem toàn văn trên Thư Viện Pháp Luật</span> ↗
+          </a>
+          <button class="btn-modal-ask" onclick="askFromModal('Nghị định 123/2021 tăng mức phạt những hành vi nào?')">Hỏi bot về NĐ 123</button>
+        </div>
+      </div>
+
+      <!-- LAW 3: Luật GTĐB 2008 -->
+      <div class="law-detail-card">
+        <span class="law-detail-badge">Luật giao thông đường bộ</span>
+        <div class="law-detail-title">Luật Giao thông đường bộ số 23/2008/QH12</div>
+        <div class="law-detail-desc">
+          Quy định quy tắc giao thông đường bộ, hệ thống báo hiệu, điều kiện an toàn kỹ thuật của phương tiện, điều kiện của người điều khiển phương tiện khi tham gia giao thông.
+        </div>
+        <div class="law-detail-actions">
+          <a
+            class="btn-cite-external"
+            href="https://thuvienphapluat.vn/van-ban/Giao-thong-Van-tai/Luat-Giao-thong-duong-bo-2008-23-2008-QH12-82203.aspx"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span>🔗 Xem toàn văn trên Thư Viện Pháp Luật</span> ↗
+          </a>
+          <button class="btn-modal-ask" onclick="askFromModal('Quy tắc làn đường và chuyển hướng theo Luật giao thông đường bộ 2008')">Hỏi bot về luật này</button>
+        </div>
+      </div>
+
+      <!-- LAW 4: Cổng Chính phủ -->
+      <div class="law-detail-card">
+        <span class="law-detail-badge">Cơ sở dữ liệu Quốc gia</span>
+        <div class="law-detail-title">Cơ sở Dữ liệu Văn bản Pháp luật - Cổng TTĐT Chính phủ</div>
+        <div class="law-detail-desc">
+          Tra cứu toàn văn các văn bản quy phạm pháp luật, chỉ thị, công điện liên quan đến trật tự, an toàn giao thông trên Cổng Thông tin Điện tử Chính phủ (chinhphu.vn).
+        </div>
+        <div class="law-detail-actions">
+          <a
+            class="btn-cite-external"
+            href="https://vanban.chinhphu.vn"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span>🔗 Truy cập Cổng TTĐT Chính phủ</span> ↗
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: ĐÁNH GIÁ & GÓP Ý (USER FEEDBACK) -->
+<div class="modal-overlay" id="modal-feedback">
+  <div class="modal-card" style="max-width: 540px;">
+    <div class="modal-header">
+      <h2>⭐ Đánh Giá &amp; Góp Ý Của Người Dân</h2>
+      <button class="modal-close" onclick="closeModal('modal-feedback')">✕</button>
+    </div>
+    <div class="modal-body">
+      <form class="feedback-form" id="feedback-form" onsubmit="handleFeedbackSubmit(event)">
+        <!-- 5-STAR RATING -->
+        <div class="star-rating-container">
+          <span class="star-rating-title">Mức độ hài lòng của bạn</span>
+          <div class="stars-row" id="stars-row">
+            <button type="button" class="star-btn" data-value="1" onclick="setRating(1)">★</button>
+            <button type="button" class="star-btn" data-value="2" onclick="setRating(2)">★</button>
+            <button type="button" class="star-btn" data-value="3" onclick="setRating(3)">★</button>
+            <button type="button" class="star-btn" data-value="4" onclick="setRating(4)">★</button>
+            <button type="button" class="star-btn active" data-value="5" onclick="setRating(5)">★</button>
+          </div>
+          <span class="rating-label-text" id="rating-label-text">Rất hài lòng (5/5)</span>
+        </div>
+
+        <!-- CATEGORY -->
+        <div class="form-group">
+          <label for="feedback-category">Chủ đề góp ý:</label>
+          <select class="form-select" id="feedback-category">
+            <option value="Độ chính xác câu trả lời">🎯 Độ chính xác câu trả lời của AI</option>
+            <option value="Tốc độ phản hồi">⚡ Tốc độ phản hồi &amp; Tìm kiếm</option>
+            <option value="Giao diện website">🎨 Giao diện &amp; Trải nghiệm tra cứu</option>
+            <option value="Bổ sung thêm điều luật">📜 Đề xuất bổ sung điều luật/văn bản mới</option>
+            <option value="Khác">💬 Ý kiến đóng góp khác</option>
+          </select>
+        </div>
+
+        <!-- COMMENT -->
+        <div class="form-group">
+          <label for="feedback-comment">Ý kiến đóng góp cụ thể:</label>
+          <textarea
+            class="form-textarea"
+            id="feedback-comment"
+            placeholder="Chia sẻ nhận xét, câu hỏi bị sai hoặc mong muốn cải thiện của bạn để hệ thống hỗ trợ người dân tốt hơn..."
+            required
+          ></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit-feedback" id="btn-submit-feedback">
+          <span>Gửi đánh giá &amp; phản hồi</span>
+          <span>→</span>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST NOTIFICATION -->
+<div class="toast-box" id="toast-box">
+  <span>✅</span>
+  <span id="toast-message">Cảm ơn bạn đã đóng góp ý kiến!</span>
+</div>
+
+<script>
+  const API_BASE_URL = window.CHATBOT_API_BASE_URL || "http://localhost:8000";
+
+  const form = document.getElementById("chat-form");
+  const input = document.getElementById("question-input");
+  const messagesContainer = document.getElementById("messages-container");
+  const sendBtn = document.getElementById("send-btn");
+
+  // Format bot response (render bullet points, bold text, and clean article blocks)
+  function formatBotText(rawText) {
+    if (!rawText) return "";
+    let lines = rawText.split("\n");
+    let html = "";
+    let inList = false;
+
+    lines.forEach(line => {
+      let trimmed = line.trim();
+      if (!trimmed) {
+        if (inList) { html += "</ul>"; inList = false; }
+        return;
+      }
+
+      // Check if it's an article result starting with 📌 [Độ chính xác: ...] or [] Điều ...
+      if (trimmed.startsWith("📌 [Độ chính xác:")) {
+        const match = trimmed.match(/📌\s*\[Độ chính xác:\s*([0-9%]+)\]\s*(.*)/);
+        if (match) {
+          if (inList) { html += "</ul>"; inList = false; }
+          let content = match[2];
+
+          // Check if there is keyword part (Từ khóa: ...)
+          let kwHtml = "";
+          const kwMatch = content.match(/\(Từ khóa:\s*(.*?)\)/i);
+          if (kwMatch) {
+            content = content.replace(/\(Từ khóa:\s*.*?\)/i, "").trim();
+            const keywords = kwMatch[1].split(",").map(k => k.trim()).filter(Boolean);
+            kwHtml = `<div class="keyword-tag-row"><span>🏷️</span> ${keywords.map(k => `<span class="keyword-pill">${k}</span>`).join(" ")}</div>`;
+          }
+
+          html += `
+            <div class="article-item">
+              <div class="article-body"><strong>[]</strong> ${formatInlineMarkdown(content)}</div>
+              ${kwHtml}
+            </div>
+          `;
+          return;
+        }
+      }
+
+      // Standard list items
+      if (trimmed.startsWith("- ") || trimmed.startsWith("• ")) {
+        if (!inList) { html += "<ul>"; inList = true; }
+        html += `<li>${formatInlineMarkdown(trimmed.substring(2))}</li>`;
+      } else {
+        if (inList) { html += "</ul>"; inList = false; }
+        html += `<p>${formatInlineMarkdown(trimmed)}</p>`;
+      }
+    });
+
+    if (inList) { html += "</ul>"; }
+    return html;
+  }
+
+  function formatInlineMarkdown(str) {
+    let escaped = str
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+
+    // Bắt buộc làm nổi bật Mức phạt tiền (VNĐ)
+    escaped = escaped.replace(/(bị phạt tiền từ [0-9\.\s]+ đồng đến [0-9\.\s]+ đồng)/gi, '<span class="fine-highlight">💰 $1</span>');
+    escaped = escaped.replace(/(phạt tiền từ [0-9\.\s]+ đồng đến [0-9\.\s]+ đồng)/gi, '<span class="fine-highlight">💰 $1</span>');
+
+    // Bắt buộc làm nổi bật Hình thức phạt bổ sung (tước bằng, trừ điểm, tịch thu)
+    escaped = escaped.replace(/(tước [gG]iấy phép lái xe[^\.;,\)]+)/gi, '<span class="penalty-highlight">⚠️ $1</span>');
+    escaped = escaped.replace(/(bị trừ [0-9\s]+ điểm giấy phép lái xe[^\.;,\)]*)/gi, '<span class="penalty-highlight">⚠️ $1</span>');
+    escaped = escaped.replace(/(bị tịch thu phương tiện)/gi, '<span class="penalty-highlight">🚫 $1</span>');
+
+    // Bold: **text**
+    escaped = escaped.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+    return escaped;
+  }
+
+  function appendUserMessage(text) {
+    const row = document.createElement("div");
+    row.className = "chat-row user";
+
+    const bubble = document.createElement("div");
+    bubble.className = "user-bubble";
+    bubble.textContent = text;
+
+    const avatar = document.createElement("div");
+    avatar.className = "user-avatar";
+    avatar.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>`;
+
+    row.appendChild(bubble);
+    row.appendChild(avatar);
+    messagesContainer.appendChild(row);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  }
+
+  function appendBotMessage(text, matches, originalQuestion) {
+    const row = document.createElement("div");
+    row.className = "chat-row bot";
+
+    const avatar = document.createElement("div");
+    avatar.className = "bot-avatar";
+    avatar.textContent = "🤖";
+
+    const card = document.createElement("div");
+    card.className = "bot-card";
+
+    // Header
+    const header = document.createElement("div");
+    header.className = "bot-card-header";
+    header.innerHTML = `
+      <div class="bot-card-header-left">
+        <span class="dot-icon"></span>
+        <span>KẾT QUẢ TRA CỨU</span>
+      </div>
+      <span class="bot-card-badge">Nghị định 100/123/NĐ-CP</span>
+    `;
+    card.appendChild(header);
+
+    // Body
+    const content = document.createElement("div");
+    content.className = "bot-card-content";
+    content.innerHTML = formatBotText(text);
+    card.appendChild(content);
+
+    // Reliability Bar & Citation Link Footer (If matches exist from SBERT search)
+    if (matches && matches.length > 0 && matches[0].similarity) {
+      const topScore = Math.min(Math.round(matches[0].similarity * 100), 99);
+      const relBox = document.createElement("div");
+      relBox.className = "reliability-box";
+      relBox.innerHTML = `
+        <div class="reliability-label-row">
+          <span>ĐỘ TIN CẬY CỦA AI</span>
+          <span class="reliability-percent">${topScore}%</span>
+        </div>
+        <div class="reliability-track">
+          <div class="reliability-fill" style="width: ${topScore}%;"></div>
+        </div>
+      `;
+      card.appendChild(relBox);
+
+      // CITATION LINK TO WEBSITE (Thư Viện Pháp Luật)
+      const citeFooter = document.createElement("div");
+      citeFooter.className = "card-citation-footer";
+      citeFooter.innerHTML = `
+        <div class="citation-header">
+          <span>📚 Nguồn trích dẫn văn bản:</span>
+        </div>
+        <div class="citation-links">
+          <a
+            class="citation-link-badge"
+            href="https://thuvienphapluat.vn/van-ban/Giao-thong-Van-tai/Nghi-dinh-100-2019-ND-CP-xu-phat-vi-pham-hanh-chinh-giao-thong-duong-bo-duong-sat-431804.aspx"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span>Nghị định 100/2019/NĐ-CP</span> ↗
+          </a>
+          <a
+            class="citation-link-badge"
+            href="https://thuvienphapluat.vn/van-ban/Vi-pham-hanh-chinh/Nghi-dinh-123-2021-ND-CP-sua-doi-Nghi-dinh-xu-phat-vi-pham-hanh-chinh-linh-vuc-giao-thong-498877.aspx"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span>Nghị định 123/2021/NĐ-CP</span> ↗
+          </a>
+        </div>
+      `;
+      card.appendChild(citeFooter);
+    }
+
+    // MICRO-FEEDBACK ROW UNDER EACH BOT ANSWER
+    const feedbackRow = document.createElement("div");
+    feedbackRow.className = "card-feedback-row";
+    feedbackRow.innerHTML = `
+      <span>Câu trả lời có giúp ích cho bạn?</span>
+      <div class="feedback-buttons">
+        <button class="btn-thumb" title="Hữu ích" onclick="voteAnswer(this, 'helpful', '${encodeURIComponent(originalQuestion || '')}')">
+          👍 <span>Hữu ích</span>
+        </button>
+        <button class="btn-thumb" title="Chưa chính xác / Góp ý" onclick="openFeedbackWithQuestion('${encodeURIComponent(originalQuestion || '')}')">
+          👎 <span>Chưa đúng</span>
+        </button>
+      </div>
+    `;
+    card.appendChild(feedbackRow);
+
+    row.appendChild(avatar);
+    row.appendChild(card);
+    messagesContainer.appendChild(row);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  }
+
+  function appendTyping() {
+    const row = document.createElement("div");
+    row.className = "chat-row bot typing-row";
+
+    const avatar = document.createElement("div");
+    avatar.className = "bot-avatar";
+    avatar.textContent = "🤖";
+
+    const card = document.createElement("div");
+    card.className = "bot-card typing";
+    card.textContent = "Đang tra cứu dữ liệu pháp luật...";
+
+    row.appendChild(avatar);
+    row.appendChild(card);
+    messagesContainer.appendChild(row);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    return row;
+  }
+
+  async function askQuestion(question) {
+    if (!question) return;
+
+    appendUserMessage(question);
+    input.value = "";
+    sendBtn.disabled = true;
+    const typingRow = appendTyping();
+
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/chat`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question }),
+      });
+      const data = await res.json();
+      typingRow.remove();
+
+      if (!res.ok) {
+        appendBotMessage(data.error || "Đã có lỗi xảy ra trong quá trình xử lý, vui lòng thử lại.", [], question);
+      } else {
+        appendBotMessage(data.answer, data.matches || [], question);
+      }
+    } catch (err) {
+      typingRow.remove();
+      appendBotMessage(
+        "Không thể kết nối đến máy chủ backend. Vui lòng kiểm tra container backend đã chạy chưa.",
+        [],
+        question
+      );
+    } finally {
+      sendBtn.disabled = false;
+      input.focus();
+    }
+  }
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const q = input.value.trim();
+    if (q) askQuestion(q);
+  });
+
+  function switchToChat() {
+    document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
+    document.getElementById("nav-chat").classList.add("active");
+    input.focus();
+  }
+
+  // Modals Controller
+  function openModal(id) {
+    document.getElementById(id).classList.add("active");
+  }
+
+  function closeModal(id) {
+    document.getElementById(id).classList.remove("active");
+  }
+
+  window.addEventListener("click", (e) => {
+    if (e.target.classList.contains("modal-overlay")) {
+      e.target.classList.remove("active");
+    }
+  });
+
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      document.querySelectorAll(".modal-overlay").forEach(m => m.classList.remove("active"));
+    }
+  });
+
+  function askFromModal(query) {
+    document.querySelectorAll(".modal-overlay").forEach(m => m.classList.remove("active"));
+    switchToChat();
+    askQuestion(query);
+  }
+
+  // ==========================================
+  // USER RATING & FEEDBACK SYSTEM
+  // ==========================================
+  let currentRating = 5;
+  const ratingLabels = {
+    1: "Rất không hài lòng (1/5)",
+    2: "Chưa hài lòng (2/5)",
+    3: "Bình thường (3/5)",
+    4: "Hài lòng (4/5)",
+    5: "Rất hài lòng (5/5)"
+  };
+
+  function setRating(val) {
+    currentRating = val;
+    const buttons = document.querySelectorAll("#stars-row .star-btn");
+    buttons.forEach((btn, idx) => {
+      if (idx < val) {
+        btn.classList.add("active");
+      } else {
+        btn.classList.remove("active");
+      }
+    });
+    document.getElementById("rating-label-text").textContent = ratingLabels[val] || `${val}/5`;
+  }
+
+  function showToast(msg) {
+    const toast = document.getElementById("toast-box");
+    document.getElementById("toast-message").textContent = msg;
+    toast.classList.add("show");
+    setTimeout(() => {
+      toast.classList.remove("show");
+    }, 3500);
+  }
+
+  async function handleFeedbackSubmit(e) {
+    e.preventDefault();
+    const category = document.getElementById("feedback-category").value;
+    const comment = document.getElementById("feedback-comment").value.trim();
+    const btn = document.getElementById("btn-submit-feedback");
+
+    btn.disabled = true;
+    btn.textContent = "Đang gửi...";
+
+    try {
+      await fetch(`${API_BASE_URL}/api/feedback`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          rating: currentRating,
+          category,
+          comment,
+        }),
+      });
+    } catch (err) {
+      console.warn("Feedback network fallback:", err);
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = `<span>Gửi đánh giá &amp; phản hồi</span><span>→</span>`;
+      closeModal("modal-feedback");
+      document.getElementById("feedback-comment").value = "";
+      showToast("Cảm ơn bạn đã đóng góp ý kiến để hoàn thiện hệ thống!");
+    }
+  }
+
+  // Quick vote (Like/Dislike on answer)
+  async function voteAnswer(btn, type, encodedQuestion) {
+    const parent = btn.parentElement;
+    parent.querySelectorAll(".btn-thumb").forEach(b => {
+      b.classList.remove("active-helpful", "active-unhelpful");
+      b.disabled = true;
+    });
+
+    if (type === "helpful") {
+      btn.classList.add("active-helpful");
+      btn.innerHTML = `✅ <span>Đã cảm ơn</span>`;
+      showToast("Cảm ơn đánh giá tích cực của bạn!");
+
+      try {
+        await fetch(`${API_BASE_URL}/api/feedback`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            rating: "helpful",
+            category: "Độ chính xác",
+            question: decodeURIComponent(encodedQuestion || ""),
+            comment: "Người dùng bấm Hữu ích 👍",
+          }),
+        });
+      } catch (err) {
+        // silent
+      }
+    }
+  }
+
+  function openFeedbackWithQuestion(encodedQuestion) {
+    const q = decodeURIComponent(encodedQuestion || "");
+    openModal("modal-feedback");
+    setRating(2);
+    document.getElementById("feedback-category").value = "Độ chính xác câu trả lời";
+    if (q) {
+      document.getElementById("feedback-comment").value = `Về câu hỏi: "${q}"\nÝ kiến góp ý: `;
+      document.getElementById("feedback-comment").focus();
+    }
+  }
+</script>
+
+</body>
+</html>

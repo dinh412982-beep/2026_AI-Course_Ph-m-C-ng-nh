@@ -1,0 +1,55 @@
+version: "3.9"
+
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    container_name: chatbot_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-chatbot}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-chatbot}
+      POSTGRES_DB: ${POSTGRES_DB:-luat_db}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-chatbot}" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: ./backend
+    container_name: chatbot_backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-chatbot}:${POSTGRES_PASSWORD:-chatbot}@db:5432/${POSTGRES_DB:-luat_db}
+      EMBEDDING_MODEL_NAME: ${EMBEDDING_MODEL_NAME:-keepitreal/vietnamese-sbert}
+      TOP_K: ${TOP_K:-2}
+      MIN_SIMILARITY: ${MIN_SIMILARITY:-0.45}
+      KEYWORD_BUFF: ${KEYWORD_BUFF:-0.28}
+      BUFF_SCORE_CAP: ${BUFF_SCORE_CAP:-0.98}
+    volumes:
+      - ./data:/app/data
+      - ./backend/app.py:/app/app.py
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build: ./frontend
+    container_name: chatbot_frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend/index.html:/usr/share/nginx/html/index.html:ro
+    ports:
+      - "8080:80"
+
+volumes:
+  pgdata:
