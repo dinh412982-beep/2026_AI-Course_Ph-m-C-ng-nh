@@ -34,9 +34,11 @@ services:
       MIN_SIMILARITY: ${MIN_SIMILARITY:-0.45}
       KEYWORD_BUFF: ${KEYWORD_BUFF:-0.28}
       BUFF_SCORE_CAP: ${BUFF_SCORE_CAP:-0.98}
+      CANDIDATE_K: ${CANDIDATE_K:-50}
     volumes:
       - ./data:/app/data
       - ./backend/app.py:/app/app.py
+      - ./backend/evaluate.py:/app/evaluate.py
     ports:
       - "8000:8000"
 

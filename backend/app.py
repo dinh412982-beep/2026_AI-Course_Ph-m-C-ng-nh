@@ -40,14 +40,15 @@ TOP_K = int(os.environ.get("TOP_K", 2))
 MIN_SIMILARITY = float(os.environ.get("MIN_SIMILARITY", 0.45))
 KEYWORD_BUFF = float(os.environ.get("KEYWORD_BUFF", 0.28))
 BUFF_SCORE_CAP = float(os.environ.get("BUFF_SCORE_CAP", 0.98))
-# So ung vien lay tu DB truoc khi buff/loc theo tu khoa. Notebook goc chi
-# lay dung TOP_K ung vien roi moi buff (candidate_k = TOP_K). Co the tang
-# CANDIDATE_K de buff co co hoi "vot" them ket qua dung nhung bi pgvector
-# xep hang thap hon TOP_K ban dau -- day la cai tien tuy chon, khong bat
-# buoc phai bat.
-CANDIDATE_K = int(os.environ.get("CANDIDATE_K", TOP_K))
+# So ung vien lay tu DB truoc khi buff/loc theo tu khoa. Mac dinh lay 50
+# ung vien de co che KEYWORD_BUFF co du khong gian vot cac ket qua dung
+# nhung bi pgvector xep hang thap hon ban dau.
+CANDIDATE_K = int(os.environ.get("CANDIDATE_K", 50))
 
-STOP_WORDS = {"gì", "bị", "cho", "của", "với", "như", "tại", "vào", "để", "và", "hay"}
+STOP_WORDS = {
+    "gì", "bị", "cho", "của", "với", "như", "tại", "vào", "để", "và", "hay",
+    "khi", "qua", "đi", "lại", "nào", "các", "những", "được", "bao", "nhiêu",
+}
 
 app = Flask(__name__)
 CORS(app)
@@ -71,8 +72,8 @@ def segment(text: str) -> str:
 def keyword_overlap_ratio(question_raw: str, content: str):
     """Trả (số từ khóa khớp, tổng số từ khóa) giữa câu hỏi gốc và nội dung.
 
-    Giữ nguyên logic từ notebook gốc: lọc từ có độ dài >= 2 ký tự và
-    không thuộc STOP_WORDS, rồi đếm số từ khóa xuất hiện trong nội dung.
+    Lọc từ có độ dài >= 2 ký tự và không thuộc STOP_WORDS, rồi đếm số từ
+    khóa xuất hiện trong nội dung.
     """
     keywords = [w for w in question_raw.lower().split() if len(w) >= 2 and w not in STOP_WORDS]
     if not keywords:
@@ -81,7 +82,9 @@ def keyword_overlap_ratio(question_raw: str, content: str):
     return matched, len(keywords)
 
 
-def search_similar(question_raw: str, top_k: int = TOP_K, candidate_k: int = CANDIDATE_K):
+def search_similar(question_raw: str, top_k: int = TOP_K, candidate_k: int = None):
+    if candidate_k is None:
+        candidate_k = max(CANDIDATE_K, top_k)
     query_vec = model.encode(segment(question_raw))
 
     conn = get_connection()
@@ -106,7 +109,7 @@ def search_similar(question_raw: str, top_k: int = TOP_K, candidate_k: int = CAN
         if total > 0:
             ratio = matched / total
             if ratio >= 0.5 or (total == 1 and matched == 1):
-                score = min(score + KEYWORD_BUFF, BUFF_SCORE_CAP)
+                score = min(score + KEYWORD_BUFF * ratio, BUFF_SCORE_CAP)
         results.append({"category": category, "content": content, "similarity": float(score)})
 
     results.sort(key=lambda r: r["similarity"], reverse=True)
